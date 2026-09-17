@@ -70,9 +70,10 @@ class AuthenticationError(ExecutionError):
     """
     Raised when AWS rejects the supplied credentials.
 
-    Triggered by botocore ClientError codes ``InvalidClientTokenId`` and
-    ``SignatureDoesNotMatch``.  The user must correct the AWS Access Key ID or
-    Secret Access Key stored in the UAC Credential entity.
+    Triggered by botocore ClientError codes ``InvalidClientTokenId``,
+    ``SignatureDoesNotMatch``, and ``InvalidAccessKeyId``.  The user must
+    correct the AWS Access Key ID or Secret Access Key stored in the UAC
+    Credential entity.
 
     Exit code 1 indicates a non-transient configuration error.
     """

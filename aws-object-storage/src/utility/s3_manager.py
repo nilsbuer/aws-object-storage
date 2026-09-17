@@ -200,7 +200,7 @@ class S3Manager:
             bucket_name: The S3 bucket name involved in the operation.
 
         Raises:
-            AuthenticationError: For error codes InvalidClientTokenId or SignatureDoesNotMatch.
+            AuthenticationError: For error codes InvalidClientTokenId, SignatureDoesNotMatch, or InvalidAccessKeyId.
             AuthorizationError: For error code AccessDenied.
             ResourceError: For error code NoSuchBucket or any other unrecognized code.
         """
@@ -210,7 +210,7 @@ class S3Manager:
 
         logger.error("ClientError [%s]: %s", error_code, error_message)
 
-        if error_code in ("InvalidClientTokenId", "SignatureDoesNotMatch"):
+        if error_code in ("InvalidClientTokenId", "SignatureDoesNotMatch", "InvalidAccessKeyId"):
             raise AuthenticationError(error_message)
 
         if error_code == "AccessDenied":
