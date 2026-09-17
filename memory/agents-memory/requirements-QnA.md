@@ -85,7 +85,7 @@ Available options:
 - **Rationale**: This is the canonical UAC pattern for API key-style credentials. The `user` slot holds the identifier (Access Key ID); the `password` slot holds the secret. No extra fields are needed, and the credential entity is self-documenting in the UAC UI.
 - **Trade-offs**: No significant trade-offs. Option A is the only clean mapping for this credential shape.
 - **Requirement Impact**: None — the single "AWS Credentials" credential field in the requirements maps directly to this approach.
-- **User's Answer**: Option A — `user` = AWS Access Key ID, `password` = AWS Secret Access Key
+- **User's Answer**: Option A — `user` = AWS Access Key ID, `password` = AWS Secret Access Key.
 
 ---
 
@@ -106,7 +106,7 @@ Options:
 - **Rationale**: Explicit configuration avoids a common class of confusing errors. Since the operator will know which region their S3 bucket is in, requiring the field is minimal friction with meaningful benefit.
 - **Trade-offs**: Option B saves one step at task setup time but can cause silent misconfiguration if the demo bucket is not in `us-east-1`. Option A makes the configuration intent unambiguous.
 - **Requirement Impact**: AWS Region field becomes a required field with no default value in the template.
-- **User's Answer**: Option A — no default, always required
+- **User's Answer**: Option A — no default, always required.
 
 ---
 
@@ -127,7 +127,7 @@ Options:
 - **Rationale**: A three-column table is significantly more informative than a plain key list and requires minimal extra code. The environment variable cap keeps the task output database-friendly without cluttering the UI.
 - **Trade-offs**: Option A is marginally simpler to implement. Option Y offers finer per-task control but adds a field for an MVP that explicitly requests simplicity.
 - **Requirement Impact**: STDOUT for List Objects becomes an ASCII table. The environment variable `UE_MAX_OUTPUT_RECORDS` is the control point for the record cap.
-- **User's Answer**: Option B (key + size + last modified) with Option X (UE_MAX_OUTPUT_RECORDS env var, default 100)
+- **User's Answer**: Option B (key + size + last modified) with Option X (`UE_MAX_OUTPUT_RECORDS` env var, default 100). Result: a three-column ASCII table in STDOUT, capped at 100 rows, with total object count always shown.
 
 ---
 
@@ -153,7 +153,7 @@ Options:
 - **Rationale**: Two focused fields are more readable in the UAC task list view than a single combined field. The S3 URI is especially useful: it lets subsequent tasks in a workflow reference the exact uploaded object without parsing STDOUT.
 - **Trade-offs**: Option A adds two template fields. Option C is minimal but provides no at-a-glance value in the task list. Option B is a reasonable middle ground but less precise.
 - **Requirement Impact**: Two Output Only fields added to the template: `Object Count` (integer display, List Objects) and `Uploaded S3 URI` (text, Upload File).
-- **User's Answer**: Option A — Object Count + Uploaded S3 URI output-only fields
+- **User's Answer**: Option A — Object Count + Uploaded S3 URI.
 
 ---
 
@@ -185,7 +185,7 @@ Extension Output (Recommended): `{ "s3_uri": "s3://bucket/key", "etag": "\"abc12
 - **Rationale**: An ASCII table is professional and visually impactful in a demo context. The full Extension Output JSON enables programmatic downstream consumption — a key value for a Stonebranch demo since it shows orchestration potential.
 - **Trade-offs**: Option A (plain list) is simpler but less compelling visually. Option Y (count only) in Extension Output is minimal but limits what downstream tasks can do with the results.
 - **Requirement Impact**: `tabulate` is added to `requirements.txt` (already in the agreed modules list). Extension Output structure is defined for both actions.
-- **User's Answer**: ASCII table on STDOUT for List Objects; simple confirmation line for Upload File; full object list JSON in Extension Output for List; S3 URI + ETag for Upload
+- **User's Answer**: Option B (ASCII table) for List STDOUT; single confirmation line for Upload STDOUT. Option X (full object list JSON) for List Extension Output; S3 URI + ETag for Upload Extension Output.
 
 ---
 
@@ -215,4 +215,4 @@ The key decision is whether the **local file existence check** for Upload File s
 - **Rationale**: A missing local file is a configuration mistake that the operator can correct immediately — exiting with code 20 signals "fix your input" rather than "something broke at runtime." The distinction also allows UAC workflow engineers to set up different failure-handling paths for validation versus runtime errors.
 - **Trade-offs**: Option A adds a brief pre-check but produces a measurably better operator experience for one of the most common mistakes. Option B is one fewer code branch but blurs the error category.
 - **Requirement Impact**: None — aligns with the MVP simplicity goal while maintaining clear operator feedback.
-- **User's Answer**: Option A — validate local file existence before upload (exit 20); all AWS/network errors as runtime failure (exit 1)
+- **User's Answer**: Option A — validate local file existence as a pre-flight check (exit code 20). All AWS-side errors (auth, bucket, permissions, network) are runtime failures (exit code 1) with a descriptive status message following the `Error Category: Description` format.
