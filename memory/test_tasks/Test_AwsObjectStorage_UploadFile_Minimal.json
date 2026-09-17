@@ -1,0 +1,54 @@
+{
+  "type": "taskUniversal",
+  "name": "Test_AwsObjectStorage_UploadFile_Minimal",
+  "template": "Aws Object Storage",
+  "agent": "AGT_LX_USERVERSE",
+  "choiceField1": {
+    "label": "Action",
+    "name": "action",
+    "value": "Upload File"
+  },
+  "credentialField1": {
+    "label": "AWS Credentials",
+    "name": "aws_credentials",
+    "value": "aws-s3-test-cred"
+  },
+  "textField1": {
+    "label": "AWS Region",
+    "name": "aws_region",
+    "value": "us-east-1"
+  },
+  "textField2": {
+    "label": "Bucket Name",
+    "name": "bucket_name",
+    "value": "aws-object-storage-test-2026"
+  },
+  "textField3": {
+    "label": "Local File Path",
+    "name": "local_file",
+    "value": "/home/ubroker/uac-extension-tests/input/test-upload.csv"
+  },
+  "textField4": {
+    "label": "S3 Object Key",
+    "name": "s3_object_key",
+    "value": "test/minimal/test-upload.csv"
+  },
+  "simulation": false,
+  "startHeld": false,
+  "retryMaximum": 0,
+  "retryInterval": 60,
+  "retryIndefinitely": false,
+  "retrySuppressFailure": false,
+  "exclusiveWithSelf": false,
+  "executionRestriction": "None",
+  "exitCodeProcessing": "Success Exitcode Range",
+  "exitCodes": "0",
+  "outputType": "STDOUT",
+  "outputReturnType": "NONE",
+  "outputReturnSline": "1",
+  "outputReturnNline": "100",
+  "credentials": null,
+  "runtimeDir": null,
+  "environment": [],
+  "variables": []
+}
